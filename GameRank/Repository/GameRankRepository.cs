@@ -5,11 +5,11 @@ using System.Web;
 using GameRank.Models;
 namespace GameRank.Repository
 {
-    public class GameRankRepository
+    public class IGameRankRepository
     {
         private List<GameResult> gameResults;
 
-        public GameRankRepository()
+        public IGameRankRepository()
         {
             gameResults = new List<GameResult>();
         }
@@ -18,7 +18,7 @@ namespace GameRank.Repository
         {
             if(gameResults.Any(game => game.PlayerID == gameResult.PlayerID && game.GameID == gameResult.GameID))
             {
-                GameResult game = gameResults.Single(games => games.PlayerID == gameResult.PlayerID && game.GameID == gameResult.GameID);
+                GameResult game = gameResults.Single(games => games.PlayerID == gameResult.PlayerID && games.GameID == gameResult.GameID);
                 game.Win += gameResult.Win;
                 return true;
             }
@@ -27,6 +27,11 @@ namespace GameRank.Repository
                 gameResults.Add(gameResult);
                 return true;
             }
+        }
+
+        public List<GameResult> GetAll()
+        {
+            return gameResults;
         }
     }
 }
