@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameRank.Repository
 {
-    public interface IGameRankRespository
+    public interface IGameRankRepository
     {
         bool Save(GameResult gameResult);
         List<GameResult> GetAll();

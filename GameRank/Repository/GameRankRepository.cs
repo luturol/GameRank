@@ -5,16 +5,16 @@ using System.Web;
 using GameRank.Models;
 namespace GameRank.Repository
 {
-    public class IGameRankRepository
+    public class GameRankRepository : IGameRankRepository
     {
         private List<GameResult> gameResults;
 
-        public IGameRankRepository()
+        public GameRankRepository()
         {
             gameResults = new List<GameResult>();
         }
 
-        public bool SaveGameResult(GameResult gameResult)
+        public bool Save(GameResult gameResult)
         {
             if(gameResults.Any(game => game.PlayerID == gameResult.PlayerID && game.GameID == gameResult.GameID))
             {

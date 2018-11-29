@@ -18,7 +18,7 @@ namespace GameRank.Service
 
         public bool SaveGameRank(GameResult gameResult)
         {
-            return repository.SaveGameResult(gameResult);
+            return repository.Save(gameResult);
         }
         
         public List<GameResult> GetAll()
