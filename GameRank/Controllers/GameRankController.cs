@@ -1,4 +1,5 @@
 ﻿using GameRank.Context;
+using GameRank.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,20 +11,44 @@ namespace GameRank.Controllers
 {
     public class GameRankController : ApiController
     {
-        //Creating Instance of DatabaseContext class  
         private DatabaseContext db = new DatabaseContext();
-
-        //Creating a method to return Json data   
+        
         [HttpGet]
         public IHttpActionResult Get()
         {
             try
             {
-                //Prepare data to be returned using Linq as follows  
                 var result = db.GameResults.Select(e => e);
                 return Ok(result);
             }
             catch (Exception)
+            { 
+                return InternalServerError();
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult Post(GameResult gameResult)
+        {
+            try
+            {
+                int result = 0;
+                if(db.GameResults.Any(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID))
+                {
+                    GameResult game = db.GameResults.Single(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID);
+                    game.Win += gameResult.Win;
+                    game.Timestamp = gameResult.Timestamp;
+                    
+                    result = db.SaveChanges();
+                }
+                else
+                {
+                    db.GameResults.Add(gameResult);
+                    result = db.SaveChanges();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
             {
                 //If any exception occurs Internal Server Error i.e. Status Code 500 will be returned  
                 return InternalServerError();
