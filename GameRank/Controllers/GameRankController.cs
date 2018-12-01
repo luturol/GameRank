@@ -1,34 +1,58 @@
-﻿using GameRank.Models;
-using GameRank.Service;
+﻿using GameRank.Context;
+using GameRank.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 
 namespace GameRank.Controllers
 {
     public class GameRankController : ApiController
     {
-        private IGameRankService service;
-
-        public GameRankController(IGameRankService service)
+        private DatabaseContext db = new DatabaseContext();
+        
+        [HttpGet]
+        public IHttpActionResult Get()
         {
-            this.service = service;
+            try
+            {
+                var result = db.GameResults.Select(e => e);
+                return Ok(result);
+            }
+            catch (Exception)
+            { 
+                return InternalServerError();
+            }
         }
 
         [HttpPost]
-        // POST api/GameRank
-        public void Post([FromBody]GameResult gameResult)
+        public IHttpActionResult Post(GameResult gameResult)
         {
-            service.SaveGameRank(gameResult);
-        }
-
-        public List<GameResult> GetAll()
-        {
-            return service.GetAll();
+            try
+            {
+                int result = 0;
+                if(db.GameResults.Any(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID))
+                {
+                    GameResult game = db.GameResults.Single(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID);
+                    game.Win += gameResult.Win;
+                    game.Timestamp = gameResult.Timestamp;
+                    
+                    result = db.SaveChanges();
+                }
+                else
+                {
+                    db.GameResults.Add(gameResult);
+                    result = db.SaveChanges();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                //If any exception occurs Internal Server Error i.e. Status Code 500 will be returned  
+                return InternalServerError();
+            }
         }
     }
 }
