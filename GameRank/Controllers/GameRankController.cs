@@ -29,7 +29,7 @@ namespace GameRank.Controllers
             }
             catch (Exception ex)
             { 
-                return InternalServerError();
+                return InternalServerError(ex);
             }
         }
 
@@ -41,9 +41,8 @@ namespace GameRank.Controllers
                 return Ok(repository.Add(gameResult));
             }
             catch (Exception ex)
-            {
-                //If any exception occurs Internal Server Error i.e. Status Code 500 will be returned  
-                return InternalServerError();
+            {                
+                return InternalServerError(ex);
             }
         }
     }
