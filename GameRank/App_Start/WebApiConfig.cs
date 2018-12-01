@@ -1,9 +1,13 @@
 ﻿using GameRank.Context;
+using GameRank.Repository;
+using GameRank.Util;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using Unity;
+using Unity.Lifetime;
 
 namespace GameRank
 {
@@ -12,6 +16,9 @@ namespace GameRank
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            var container = new UnityContainer();
+            container.RegisterType<IGameResultRepository, GameResultRepository>(new HierarchicalLifetimeManager());
+            config.DependencyResolver = new UnityResolver(container);
 
             // Web API routes
             config.MapHttpAttributeRoutes();

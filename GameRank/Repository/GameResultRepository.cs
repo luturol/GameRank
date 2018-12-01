@@ -11,11 +11,11 @@ namespace GameRank.Repository
     {
         private DatabaseContext db = new DatabaseContext();
 
-        public IEnumerable<GameResult> GetTopHundred()
+        public IEnumerable<GameResultDTO> GetTopHundred()
         {
             return (from games in db.GameResults
                     orderby games.Win descending
-                    select new GameResult
+                    select new GameResultDTO
                     {
                         GameID = games.GameID,
                         PlayerID = games.PlayerID,
@@ -24,7 +24,7 @@ namespace GameRank.Repository
                     }).ToList().Take(100);
         }
 
-        public bool Add(GameResult gameResult)
+        public bool Add(GameResultDTO gameResult)
         {
             if(db.GameResults.Any(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID))
             {
@@ -35,7 +35,13 @@ namespace GameRank.Repository
             }
             else
             {
-                db.GameResults.Add(gameResult);
+                db.GameResults.Add(new GameResult()
+                {
+                    GameID = gameResult.GameID,
+                    PlayerID = gameResult.PlayerID,
+                    Win = gameResult.Win,
+                    Timestamp = gameResult.Timestamp
+                });
                 return db.SaveChanges() > 0;
             }
         }

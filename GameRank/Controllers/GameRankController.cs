@@ -27,14 +27,14 @@ namespace GameRank.Controllers
                 var result = repository.GetTopHundred();
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             { 
                 return InternalServerError();
             }
         }
 
         [HttpPost]
-        public IHttpActionResult Post(GameResult gameResult)
+        public IHttpActionResult Post(GameResultDTO gameResult)
         {
             try
             {           
