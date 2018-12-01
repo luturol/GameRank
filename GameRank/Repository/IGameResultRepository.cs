@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GameRank.Repository
 {
-    interface IGameResultRepository
+    public interface IGameResultRepository
     {
         IEnumerable<GameResult> GetTopHundred();
         bool Add(GameResult gameResult);
