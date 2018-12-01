@@ -1,5 +1,6 @@
 ﻿using GameRank.Context;
 using GameRank.Models;
+using GameRank.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,42 +12,33 @@ namespace GameRank.Controllers
 {
     public class GameRankController : ApiController
     {
-        private DatabaseContext db = new DatabaseContext();
+        private IGameResultRepository repository;
+
+        public GameRankController(IGameResultRepository repository)
+        {
+            this.repository = repository;
+        }
         
         [HttpGet]
         public IHttpActionResult Get()
         {
             try
             {
-                var result = db.GameResults.Select(e => e);
+                var result = repository.GetTopHundred();
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             { 
                 return InternalServerError();
             }
         }
 
         [HttpPost]
-        public IHttpActionResult Post(GameResult gameResult)
+        public IHttpActionResult Post(GameResultDTO gameResult)
         {
             try
-            {
-                int result = 0;
-                if(db.GameResults.Any(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID))
-                {
-                    GameResult game = db.GameResults.Single(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID);
-                    game.Win += gameResult.Win;
-                    game.Timestamp = gameResult.Timestamp;
-                    
-                    result = db.SaveChanges();
-                }
-                else
-                {
-                    db.GameResults.Add(gameResult);
-                    result = db.SaveChanges();
-                }
-                return Ok(result);
+            {           
+                return Ok(repository.Add(gameResult));
             }
             catch (Exception ex)
             {
