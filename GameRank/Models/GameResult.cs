@@ -10,6 +10,6 @@ namespace GameRank.Models
         public long PlayerID { get; set; }
         public long GameID { get; set; } 
         public long Win { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }        
     }
 }
