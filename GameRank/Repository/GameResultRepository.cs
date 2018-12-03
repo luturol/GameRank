@@ -3,13 +3,14 @@ using GameRank.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace GameRank.Repository
 {
     public class GameResultRepository : IGameResultRepository
     {
-        private DatabaseContext db = new DatabaseContext();
+        private DatabaseContext db = new DatabaseContext();      
 
         public IEnumerable<GameResultDTO> GetTopHundred()
         {
@@ -24,26 +25,36 @@ namespace GameRank.Repository
                     }).ToList().Take(100);
         }
 
-        public bool Add(GameResultDTO gameResult)
+        public bool Add(GameResultDTO gameResultDTO)
         {
-            if(db.GameResults.Any(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID))
+            if(db.GameResults.Any(e => e.GameID == gameResultDTO.GameID && e.PlayerID == gameResultDTO.PlayerID))
             {
-                GameResult game = db.GameResults.Single(e => e.GameID == gameResult.GameID && e.PlayerID == gameResult.PlayerID);
-                game.Win += gameResult.Win;
-                game.Timestamp = gameResult.Timestamp;
-                return db.SaveChanges() > 0;
+                return UpdateGameResult(gameResultDTO);
             }
             else
             {
-                db.GameResults.Add(new GameResult()
-                {
-                    GameID = gameResult.GameID,
-                    PlayerID = gameResult.PlayerID,
-                    Win = gameResult.Win,
-                    Timestamp = gameResult.Timestamp
-                });
-                return db.SaveChanges() > 0;
+                return AddNewGameResult(gameResultDTO);
             }
+        }
+
+        private bool UpdateGameResult(GameResultDTO gameResultDTO)
+        {
+            GameResult game = db.GameResults.Single(e => e.GameID == gameResultDTO.GameID && e.PlayerID == gameResultDTO.PlayerID);
+            game.Win += gameResultDTO.Win;
+            game.Timestamp = gameResultDTO.Timestamp;
+            return db.SaveChanges() > 0;
+        }
+
+        private bool AddNewGameResult(GameResultDTO gameResultDTO)
+        {
+            db.GameResults.Add(new GameResult()
+            {
+                GameID = gameResultDTO.GameID,
+                PlayerID = gameResultDTO.PlayerID,
+                Win = gameResultDTO.Win,
+                Timestamp = gameResultDTO.Timestamp
+            });
+            return db.SaveChanges() > 0;
         }
     }
 }
