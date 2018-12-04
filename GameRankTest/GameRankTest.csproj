@@ -55,9 +55,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controller\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\GameRank\GameRank.csproj">
       <Project>{b6e61708-dd82-44ec-b114-b4b5d9b236b8}</Project>
