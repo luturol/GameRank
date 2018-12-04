@@ -14,7 +14,6 @@ namespace GameRankTest.Repository
 
         public bool Add(GameResultDTO gameResult)
         {
-
             if (!ValidaDados(gameResult))
             {
                 return false;
@@ -37,7 +36,7 @@ namespace GameRankTest.Repository
         {
             if (gameResults.Any(e => e.GameID == newGameResult.GameID && e.PlayerID == newGameResult.PlayerID))
             {
-                GameResult game = gameResults[gameResults.IndexOf(newGameResult)];
+                GameResult game = gameResults[gameResults.FindIndex(e => e.GameID == newGameResult.GameID && e.PlayerID == newGameResult.PlayerID)];
                 game.Win += newGameResult.Win;
                 return true;
             }
