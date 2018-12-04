@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameRank", "GameRank\GameRank.csproj", "{B6E61708-DD82-44EC-B114-B4B5D9B236B8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameRankTest", "GameRankTest\GameRankTest.csproj", "{2C8B44B0-1C98-4030-A89F-22D3F1C6B897}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B6E61708-DD82-44EC-B114-B4B5D9B236B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6E61708-DD82-44EC-B114-B4B5D9B236B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6E61708-DD82-44EC-B114-B4B5D9B236B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C8B44B0-1C98-4030-A89F-22D3F1C6B897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C8B44B0-1C98-4030-A89F-22D3F1C6B897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C8B44B0-1C98-4030-A89F-22D3F1C6B897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C8B44B0-1C98-4030-A89F-22D3F1C6B897}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
