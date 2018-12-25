@@ -122,6 +122,7 @@
     <Compile Include="Context\DatabaseContext.cs" />
     <Compile Include="Context\DatabaseInitializer.cs" />
     <Compile Include="Controllers\GameRankController.cs" />
+    <Compile Include="Service\GameResultService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
