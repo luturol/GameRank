@@ -12,51 +12,11 @@ namespace GameRankTest.Repository
     {
         public List<GameResult> gameResults = new List<GameResult>();
 
-        public bool Add(GameResultDTO gameResult)
-        {
-            if (!ValidaDados(gameResult))
-            {
-                return false;
-            }
-            else
-            {
-                GameResult newGame = new GameResult()
-                {
-                    GameID = gameResult.GameID,
-                    PlayerID = gameResult.PlayerID,
-                    Timestamp = gameResult.Timestamp,
-                    Win = gameResult.Win
-                };
+        public bool Add(GameResultDTO gameResultDTO)
+        {            
+            gameResults.Add(Create(gameResultDTO));
+            return true;
 
-                return Save(newGame);
-            }
-        }
-
-        private bool Save(GameResult newGameResult)
-        {
-            if (gameResults.Any(e => e.GameID == newGameResult.GameID && e.PlayerID == newGameResult.PlayerID))
-            {
-                GameResult game = gameResults[gameResults.FindIndex(e => e.GameID == newGameResult.GameID && e.PlayerID == newGameResult.PlayerID)];
-                game.Win += newGameResult.Win;
-                return true;
-            }
-            else
-            {
-                gameResults.Add(newGameResult);
-                return true;
-            }
-        }
-
-        private bool ValidaDados(GameResultDTO gameResultDTO)
-        {
-            if (gameResultDTO != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public IEnumerable<GameResultDTO> GetTopHundred()
@@ -70,6 +30,30 @@ namespace GameRankTest.Repository
                         Win = games.Win,
                         Timestamp = games.Timestamp
                     }).ToList().Take(100);
+        }
+
+        public bool Update(GameResultDTO gameResultDTO)
+        {
+            GameResult newGame = Create(gameResultDTO);
+            GameResult game = gameResults[gameResults.FindIndex(e => e.GameID == newGame.GameID && e.PlayerID == newGame.PlayerID)];
+            game.Win += newGame.Win;
+            return true;
+        }
+
+        public bool ExistGameResultWithSameGameIdAndPlayerId(GameResultDTO gameResultDTO)
+        {
+            return gameResults.Any(e => e.GameID == gameResultDTO.GameID && e.PlayerID == gameResultDTO.PlayerID);
+        }
+
+        private GameResult Create(GameResultDTO gameResultDTO)
+        {
+           return new GameResult()
+            {
+                GameID = gameResultDTO.GameID,
+                PlayerID = gameResultDTO.PlayerID,
+                Timestamp = gameResultDTO.Timestamp,
+                Win = gameResultDTO.Win
+            };
         }
     }
 }
