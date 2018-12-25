@@ -51,6 +51,7 @@
     <Compile Include="Repository\FakeGameResultRepository.cs" />
     <Compile Include="Repository\TestGameResultRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\TestGameResultService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

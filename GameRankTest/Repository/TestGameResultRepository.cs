@@ -22,14 +22,7 @@ namespace GameRank.Repository
                 Win = 2
             };
             Assert.IsTrue(fakeGameResultRepository.Add(FakeGame));
-        }
-
-        [TestMethod]
-        public void TestUnsuccessfullyAddNewGameResult()
-        {
-            FakeGameResultRepository fakeGameResultRepository = new FakeGameResultRepository();           
-            Assert.IsFalse(fakeGameResultRepository.Add(null));
-        }
+        }        
 
         [TestMethod]
         public void TestSuccessfullyGetTopHundred()
