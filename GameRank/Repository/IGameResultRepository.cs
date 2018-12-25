@@ -10,6 +10,8 @@ namespace GameRank.Repository
     public interface IGameResultRepository
     {
         IEnumerable<GameResultDTO> GetTopHundred();
-        bool Add(GameResultDTO gameResult);
+        bool Add(GameResultDTO gameResultDTO);
+        bool Update(GameResultDTO gameResultDTO);
+        bool ExistGameResultWithSameGameIdAndPlayerId(GameResultDTO gameResultDTO);
     }
 }

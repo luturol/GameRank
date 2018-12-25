@@ -1,6 +1,7 @@
 ﻿using GameRank.Context;
 using GameRank.Models;
 using GameRank.Repository;
+using GameRank.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ namespace GameRank.Controllers
 {
     public class GameRankController : ApiController
     {
-        private IGameResultRepository repository;
+        private GameResultService service;
 
-        public GameRankController(IGameResultRepository repository)
+        public GameRankController(GameResultService service)
         {
-            this.repository = repository;
+            this.service = service;
         }
         
         [HttpGet]
@@ -24,7 +25,7 @@ namespace GameRank.Controllers
         {
             try
             {
-                var result = repository.GetTopHundred();
+                var result = service.GetTopHundred();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -38,7 +39,7 @@ namespace GameRank.Controllers
         {
             try
             {           
-                return Ok(repository.Add(gameResult));
+                return Ok(service.Add(gameResult));
             }
             catch (Exception ex)
             {                
